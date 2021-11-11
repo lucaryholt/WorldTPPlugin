@@ -1,0 +1,9 @@
+name: main.plugin.WorldTPPlugin
+version: ${project.version}
+main: main.plugin.WorldTPPlugin
+api-version: 1.17
+commands:
+  wtp:
+    description: Open a world tp gui for the player
+  wtp-refresh:
+    description: Refresh the locations from the DB. Only OPs
