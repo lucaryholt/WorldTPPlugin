@@ -1,7 +1,6 @@
 package main.plugin;
 
-import main.plugin.command.MenuCommand;
-import main.plugin.command.RefreshCommand;
+import main.plugin.command.WTPCommand;
 import main.plugin.handler.DatabaseHandler;
 import main.plugin.handler.MenuHandler;
 import main.plugin.model.TPLocation;
@@ -29,17 +28,19 @@ public final class WorldTPPlugin extends JavaPlugin {
     public void onEnable() {
         logger = getLogger();
 
+        // Read DB config
         FileConfiguration customDatabaseConfig = createCustomConfig("mysqlConfig.yml");
 
-        // Establish Database connection
+        // Establish DB connection
         databaseHandler = new DatabaseHandler(customDatabaseConfig);
 
         // Get locations from DB
         tpLocations = databaseHandler.getTPLocations();
 
-        Objects.requireNonNull(getCommand("wtp")).setExecutor(new MenuCommand());
-        Objects.requireNonNull(getCommand("wtp-refresh")).setExecutor(new RefreshCommand());
+        // Enable command
+        Objects.requireNonNull(getCommand("wtp")).setExecutor(new WTPCommand());
 
+        // Register event
         getServer().getPluginManager().registerEvents(new MenuHandler(), this);
     }
 

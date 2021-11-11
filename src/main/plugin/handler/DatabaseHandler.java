@@ -37,13 +37,38 @@ public class DatabaseHandler {
                         rs.getDouble("x_location"),
                         rs.getDouble("z_location"),
                         rs.getDouble("y_location"),
-                        rs.getString("world")
+                        rs.getString("world"),
+                        rs.getBoolean("enabled")
                 ));
             }
         } catch (SQLException e) {
             logger.log(Level.WARNING, "Error querying database. " + e.getMessage());
         }
         return tpLocations;
+    }
+
+    public void insertTPLocation(TPLocation tpLocation) {
+        try {
+            PreparedStatement statement = connection.prepareStatement(
+                    "INSERT INTO tpLocations " +
+                            "(name, material, lore, x_location, y_location, z_location, world, enabled) " +
+                            "VALUES " +
+                            "(?, ?, ?, ?, ?, ?, ? ,?);"
+            );
+
+            statement.setString(1, tpLocation.getName());
+            statement.setString(2, tpLocation.getMaterial().toString());
+            statement.setString(3, tpLocation.getLore());
+            statement.setDouble(4, tpLocation.getX());
+            statement.setDouble(5, tpLocation.getY());
+            statement.setDouble(6, tpLocation.getZ());
+            statement.setString(7, tpLocation.getWorld());
+            statement.setBoolean(8, tpLocation.isEnabled());
+
+            statement.execute();
+        } catch (SQLException e) {
+            logger.log(Level.WARNING, "Error querying database. " + e.getMessage());
+        }
     }
 
     private String makeConnectionString(FileConfiguration config) {

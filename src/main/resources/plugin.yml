@@ -5,5 +5,7 @@ api-version: 1.17
 commands:
   wtp:
     description: Open a world tp gui for the player
-  wtp-refresh:
-    description: Refresh the locations from the DB. Only OPs
+  wtp add:
+    description: Add a location
+  wtp refresh:
+    description: Refresh the locations from the DB

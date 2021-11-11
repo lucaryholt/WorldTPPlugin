@@ -11,6 +11,7 @@ public class TPLocation {
     private double z;
     private double y;
     private String world;
+    private boolean enabled;
 
     public String getName() {
         return name;
@@ -74,7 +75,15 @@ public class TPLocation {
         this.world = world;
     }
 
-    public TPLocation(String name, Material material, String lore, double x, double z, double y, String world) {
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public TPLocation(String name, Material material, String lore, double x, double z, double y, String world, boolean enabled) {
         this.name = name;
         this.material = material;
         this.lore = lore;
@@ -82,6 +91,7 @@ public class TPLocation {
         this.z = z;
         this.y = y;
         this.world = world;
+        this.enabled = enabled;
     }
 
     @Override
@@ -94,6 +104,7 @@ public class TPLocation {
                 ", z=" + z +
                 ", y=" + y +
                 ", world='" + world + '\'' +
+                ", enabled=" + enabled +
                 '}';
     }
 }
