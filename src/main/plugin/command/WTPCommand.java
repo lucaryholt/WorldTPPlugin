@@ -1,14 +1,10 @@
 package main.plugin.command;
 
-import static main.plugin.WorldTPPlugin.logger;
-
-import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
 import java.util.Locale;
-import java.util.logging.Level;
 
 public class WTPCommand implements CommandExecutor {
     @Override
@@ -20,6 +16,7 @@ public class WTPCommand implements CommandExecutor {
         switch (strings[0].toUpperCase(Locale.ROOT)) {
             case "REFRESH"  :   return new RefreshCommand().onCommand(commandSender, command, s, strings);
             case "ADD"      :   return new AddCommand().onCommand(commandSender, command, s, strings);
+            case "DELETE"   :   return new DeleteCommand().onCommand(commandSender, command, s, strings);
         }
 
         return true;

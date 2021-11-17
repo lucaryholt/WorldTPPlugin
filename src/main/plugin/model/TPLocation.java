@@ -6,12 +6,21 @@ public class TPLocation {
 
     private String name;
     private Material material;
-    private String lore;
     private double x;
     private double z;
     private double y;
     private String world;
     private boolean enabled;
+
+    public TPLocation(String name, Material material, double x, double z, double y, String world, boolean enabled) {
+        this.name = name;
+        this.material = material;
+        this.x = x;
+        this.z = z;
+        this.y = y;
+        this.world = world;
+        this.enabled = enabled;
+    }
 
     public String getName() {
         return name;
@@ -27,14 +36,6 @@ public class TPLocation {
 
     public void setMaterial(Material material) {
         this.material = material;
-    }
-
-    public String getLore() {
-        return lore;
-    }
-
-    public void setLore(String lore) {
-        this.lore = lore;
     }
 
     public double getX() {
@@ -83,23 +84,11 @@ public class TPLocation {
         this.enabled = enabled;
     }
 
-    public TPLocation(String name, Material material, String lore, double x, double z, double y, String world, boolean enabled) {
-        this.name = name;
-        this.material = material;
-        this.lore = lore;
-        this.x = x;
-        this.z = z;
-        this.y = y;
-        this.world = world;
-        this.enabled = enabled;
-    }
-
     @Override
     public String toString() {
         return "TPLocation{" +
                 "name='" + name + '\'' +
                 ", material=" + material +
-                ", lore='" + lore + '\'' +
                 ", x=" + x +
                 ", z=" + z +
                 ", y=" + y +

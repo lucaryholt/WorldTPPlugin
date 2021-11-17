@@ -4,13 +4,17 @@ import main.plugin.WorldTPPlugin;
 import main.plugin.model.TPLocation;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Location;
-import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
+import java.util.logging.Level;
+import java.util.stream.Collectors;
 
 public class MenuHandler implements Listener {
 
@@ -19,18 +23,23 @@ public class MenuHandler implements Listener {
 
         Player p = (Player) e.getWhoClicked();
 
-        if (e.getView().getTitle().equals(WorldTPPlugin.GUI_TITLE)) {
-            for (TPLocation tpLocation : WorldTPPlugin.tpLocations) {
-                if (Objects.requireNonNull(e.getCurrentItem()).getType().equals(tpLocation.getMaterial())) {
-                    Location location = new Location(
-                            WorldTPPlugin.getPlugin(WorldTPPlugin.class).getServer().getWorld(tpLocation.getWorld()),
-                            tpLocation.getX(), tpLocation.getY(), tpLocation.getZ());
+        if (e.getCurrentItem() != null) {
+            if (e.getView().getTitle().equals(WorldTPPlugin.GUI_TITLE)) {
+                for (TPLocation tpLocation : TPLocationsHandler.getTPLocations(p.getName(), true)) {
+                    String name0 = tpLocation.getName();
+                    String name1 = e.getCurrentItem().getItemMeta().getLocalizedName();
 
-                    p.teleport(location);
-                    p.sendMessage(ChatColor.YELLOW + "Welcome to " + ChatColor.BOLD + ChatColor.GOLD + tpLocation.getName() + ChatColor.RESET + ChatColor.YELLOW + "!");
+                    if (name0.equals(name1) && tpLocation.isEnabled()) {
+                        Location location = new Location(
+                                WorldTPPlugin.getPlugin(WorldTPPlugin.class).getServer().getWorld(tpLocation.getWorld()),
+                                tpLocation.getX(), tpLocation.getY(), tpLocation.getZ());
+
+                        p.teleport(location);
+                        p.sendMessage(ChatColor.YELLOW + "Welcome to " + ChatColor.BOLD + ChatColor.GOLD + tpLocation.getName() + ChatColor.RESET + ChatColor.YELLOW + "!");
+                    }
                 }
+                e.setCancelled(true);
             }
-            e.setCancelled(true);
         }
     }
 

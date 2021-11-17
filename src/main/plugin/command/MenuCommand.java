@@ -1,14 +1,13 @@
 package main.plugin.command;
 
 import main.plugin.WorldTPPlugin;
+import main.plugin.handler.TPLocationsHandler;
 import main.plugin.model.TPLocation;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -19,22 +18,19 @@ import java.util.List;
 
 public class MenuCommand implements CommandExecutor {
 
-    private List<ItemStack> instanciateItems(boolean isOp) {
+    private List<ItemStack> instanciateItems(String username) {
         List<ItemStack> itemStacks = new ArrayList<>();
 
-        for (TPLocation tpLocation : WorldTPPlugin.tpLocations) {
-            if (!isOp && !tpLocation.isEnabled()) continue;
+        for (TPLocation tpLocation : TPLocationsHandler.getTPLocations(username, true)) {
+            if (!tpLocation.isEnabled()) continue;
             ItemStack itemStack = new ItemStack(tpLocation.getMaterial(), 1);
-
-            if (!tpLocation.isEnabled()) {
-                itemStack = new ItemStack(Material.IRON_NUGGET, 1);
-            }
 
             ItemMeta itemMeta = itemStack.getItemMeta();
             itemMeta.setDisplayName(ChatColor.GOLD + tpLocation.getName());
             ArrayList<String> itemLore = new ArrayList<>();
-            itemLore.add(ChatColor.YELLOW + tpLocation.getLore());
+            itemLore.add(ChatColor.YELLOW + tpLocation.getWorld());
             itemMeta.setLore(itemLore);
+            itemMeta.setLocalizedName(tpLocation.getName());
 
             itemStack.setItemMeta(itemMeta);
 
@@ -50,17 +46,23 @@ public class MenuCommand implements CommandExecutor {
         if (commandSender instanceof Player) {
             Player p = (Player) commandSender;
 
-            List<ItemStack> itemStacks = instanciateItems(p.isOp());
+            List<ItemStack> itemStacks = instanciateItems(p.getName());
 
-            int inventorySize = Math.max(itemStacks.size(), 9);
+            int inventorySize = inventorySize(itemStacks.size());
 
             Inventory gui = Bukkit.createInventory(p, inventorySize, WorldTPPlugin.GUI_TITLE);
 
-            for (ItemStack itemStack : itemStacks) gui.addItem(itemStack);
+            if (!itemStacks.isEmpty()) for (ItemStack itemStack : itemStacks) gui.addItem(itemStack);
 
             p.openInventory(gui);
         }
 
         return true;
+    }
+
+    private int inventorySize(int numberOfItems) {
+        double a = numberOfItems / 9;
+
+        return ((int) a + 1) * 9;
     }
 }

@@ -3,9 +3,11 @@ version: ${project.version}
 main: main.plugin.WorldTPPlugin
 api-version: 1.17
 commands:
-  wtp:
+  t:
     description: Open a world tp gui for the player
-  wtp add:
+  t add:
     description: Add a location
-  wtp refresh:
+  t refresh:
     description: Refresh the locations from the DB
+  t delete:
+    description: Delete a location

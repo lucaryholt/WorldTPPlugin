@@ -1,6 +1,6 @@
 package main.plugin.command;
 
-import main.plugin.WorldTPPlugin;
+import main.plugin.handler.TPLocationsHandler;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -13,7 +13,7 @@ public class RefreshCommand implements CommandExecutor {
         if (commandSender instanceof Player) {
             Player p = (Player) commandSender;
             if (p.isOp()) {
-                WorldTPPlugin.tpLocations = WorldTPPlugin.databaseHandler.getTPLocations();
+                TPLocationsHandler.refreshLocations();
                 p.sendMessage("Refreshed TPLocations.");
             } else {
                 p.sendMessage("You are not op. Not allowed.");
